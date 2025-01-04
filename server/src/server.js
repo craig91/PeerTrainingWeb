@@ -12,16 +12,47 @@ app.use(express.json());
 //     res.send("API is running");
 // });
 
-app.get('/db-test', async (req, res) => {
+
+app.get('/users', async (req, res) => {
     try {
-        const[rows] = await pool.query('SELECT 1 + 1 AS solution');
-        console.log('Query Result: ', rows);
-        res.json({ result: rows[0].result });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Database connection failed");
+        const connection = await pool.getConnection();
+        try {
+            const [results] = await connection.query('SELECT * FROM users');
+            res.json(results);
+        } catch (queryError) {
+            console.error('Query Error: ', queryError);
+            res.status(500).send('Internal Server Error');
+        } finally {
+            connection.release();
+        }
+    } catch (connectionError) {
+        console.error('Connection Error:', connectionError);
+        res.status(500).send('Internal Server Error');
     }
-})
+});
+
+
+app.post('/new', async (req, res) => {
+    try {
+        const connection = await pool.getConnection();
+        try {
+            const { first_name, last_name, email, username } = req.body;
+            const query = 'INSERT INTO users (first_name, last_name, email, username) VALUES (?, ?, ?, ?)';
+            const [result] = await connection.query(query, [first_name, last_name, email, username]);
+            res.status(201).json({ id: result.insertId, first_name, last_name, email, username });
+        } catch (queryError) {
+            console.error('Query Error:', queryError);
+            res.status(500).send('Internal Server Error');
+        } finally {
+            connection.release();
+        }
+    } catch (connectionError) {
+        console.error('Connection Error:', connectionError);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 
 console.log('DB_HOST:', process.env.DB_HOST);
 console.log('DB_USER:', process.env.DB_USER);
