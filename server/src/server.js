@@ -2,6 +2,8 @@ const express = require('express');
 require('dotenv').config();
 const pool = require('./config/db');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -47,6 +49,38 @@ app.post('/new', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+
+app.post('/login', async (req, res) => {
+    try {
+        const connection = await pool.getConnection();
+        try {
+            const { username, password } = req.body;
+            const query = 'SELECT * FROM users WHERE username = ?';
+            const [results] = await connection.query(query, [username]);
+            if (results.length === 0) {
+                return res.status(401).send('Invalid username or password');
+            }
+            const users = results[0];
+            const isPasswordValid = await bcrypt.compare(password, users.password);
+            if (!isPasswordValid) {
+                return res.status(401).send('Invalid username or password');
+            }
+            const token = jwt.sign({ id: users.id, username: users.username }, process.env.JWT_SECRET);   
+            res.json({ token });
+        } catch(queryError) {
+            console.error('Query Error:', queryError);
+            res.status(500).send('Internal Server Error');
+        } finally {
+            connection.release()
+        }
+    } catch (connectionError) {
+        console.error('Connection Error:', connectionError);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 
 app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
