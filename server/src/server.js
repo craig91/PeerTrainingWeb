@@ -1,16 +1,11 @@
 const express = require('express');
+require('dotenv').config();
 const pool = require('./config/db');
-require('dotenv').config({ path: '../.env' });
 
 const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
-
-
-// app.get('/', (req, res)=> {
-//     res.send("API is running");
-// });
 
 
 app.get('/users', async (req, res) => {
@@ -54,8 +49,9 @@ app.post('/new', async (req, res) => {
 
 
 
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_USER:', process.env.DB_USER);
+// console.log('DB_HOST:', process.env.DB_HOST);
+// console.log('DB_USER:', process.env.DB_USER);
+// console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
 
 
 app.listen(port, () => {
