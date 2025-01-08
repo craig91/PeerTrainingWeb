@@ -30,7 +30,7 @@ app.get('/users', async (req, res) => {
 });
 
 
-app.post('/new', async (req, res) => {
+app.post('/signup', async (req, res) => {
     try {
         const connection = await pool.getConnection();
         try {
@@ -88,3 +88,5 @@ app.post('/login', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
 });
+
+module.exports = app;
