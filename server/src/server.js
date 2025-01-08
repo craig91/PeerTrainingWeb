@@ -34,10 +34,12 @@ app.post('/new', async (req, res) => {
     try {
         const connection = await pool.getConnection();
         try {
-            const { first_name, last_name, email, username } = req.body;
-            const query = 'INSERT INTO users (first_name, last_name, email, username) VALUES (?, ?, ?, ?)';
-            const [result] = await connection.query(query, [first_name, last_name, email, username]);
-            res.status(201).json({ id: result.insertId, first_name, last_name, email, username });
+            console.log(req.query)
+            const { first_name, last_name, email, username, password } = req.body;
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const query = 'INSERT INTO users (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)';
+            const [result] = await connection.query(query, [first_name, last_name, email, username, hashedPassword]);
+            res.status(201).json({ id: result.insertId, first_name, last_name, email, username, password });
         } catch (queryError) {
             console.error('Query Error:', queryError);
             res.status(500).send('Internal Server Error');
@@ -59,6 +61,7 @@ app.post('/login', async (req, res) => {
             const query = 'SELECT * FROM users WHERE username = ?';
             const [results] = await connection.query(query, [username]);
             if (results.length === 0) {
+                console.log(results);
                 return res.status(401).send('Invalid username or password');
             }
             const users = results[0];
