@@ -69,8 +69,8 @@ app.post('/login', async (req, res) => {
             if (!isPasswordValid) {
                 return res.status(401).send('Invalid username or password');
             }
-            const token = jwt.sign({ id: users.id, username: users.username }, process.env.JWT_SECRET);   
-            res.json({ token });
+            const token = jwt.sign({ id: users.id, username: users.username }, process.env.JWT_SECRET, { expiresIn: '1h' });   
+            res.json({ token, user: { id: users.id, username: users.username } });
         } catch(queryError) {
             console.error('Query Error:', queryError);
             res.status(500).send('Internal Server Error');

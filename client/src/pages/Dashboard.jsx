@@ -5,6 +5,7 @@ function Dashboard() {
         <div className="dashboard">
             <header>
                 <h1>Dashboard</h1>
+                {/* {user && <p>Welcome, {user.username}!</p>} */}
             </header>
             <main>
                 <section>
