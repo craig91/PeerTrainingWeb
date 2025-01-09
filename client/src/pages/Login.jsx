@@ -26,24 +26,23 @@ function Login({ setUser }) {
       },
       body: JSON.stringify(loginData)
     })
-      .then(response => response.text()) 
+      .then(response => response.text())
       .then(text => {
         console.log('Raw response:', text);
         const data = JSON.parse(text);
         console.log('Login successful:', data);
         if (data.user) {
           setUser(data.user);
-          const checkState = setUser(data.user); 
+          setLoginData({ username: '', password: '' });
+          console.log('Form fields reset');
           navigate('/');
-          console.log(checkState);
-          
         } else {
           console.error('No user data in response');
         }
       })
       .catch(error => console.error('Error logging in:', error));
   };
-  
+
   return (
     <div className="login">
       <h2>Login</h2>

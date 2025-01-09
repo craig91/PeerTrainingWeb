@@ -55,31 +55,34 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     try {
+        console.log('Login request received:', req.body);
         const connection = await pool.getConnection();
         try {
             const { username, password } = req.body;
             const query = 'SELECT * FROM users WHERE username = ?';
             const [results] = await connection.query(query, [username]);
             if (results.length === 0) {
-                console.log(results);
-                return res.status(401).send('Invalid username or password');
+                console.log('No user found with username:', username);
+                return res.status(401).json({error: 'Invalid username or password'});
             }
-            const users = results[0];
-            const isPasswordValid = await bcrypt.compare(password, users.password);
+            const user = results[0];
+            console.log('User found:', user);
+            const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
-                return res.status(401).send('Invalid username or password');
+                console.log('Invalid password for user:', username);
+                return res.status(401).json({error: 'Invalid username or password' });
             }
-            const token = jwt.sign({ id: users.id, username: users.username }, process.env.JWT_SECRET, { expiresIn: '1h' });   
-            res.json({ token, user: { id: users.id, username: users.username } });
+            const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });   
+            res.json({ token, user: { id: user.id, username: user.username } });
         } catch(queryError) {
             console.error('Query Error:', queryError);
-            res.status(500).send('Internal Server Error');
+            res.status(500).json({error: 'Internal Server Error'});
         } finally {
-            connection.release()
+            connection.release();
         }
     } catch (connectionError) {
         console.error('Connection Error:', connectionError);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({error: 'Internal Server Error'});
     }
 });
 
