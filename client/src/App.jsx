@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
 import Dashboard from './pages/Dashboard';
@@ -13,10 +13,9 @@ function App() {
       <div className="App">
         <Navbar user={user} />
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard user={user} />} />
+          <Route path="/dashboard" element={<Dashboard user={user} />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
         </Routes>
       </div>

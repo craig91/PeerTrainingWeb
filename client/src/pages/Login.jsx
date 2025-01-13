@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Login({ setUser }) {
   const [loginData, setLoginData] = useState({
@@ -19,21 +20,20 @@ function Login({ setUser }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:8080/login', {
-      method: 'POST',
+    axios.post('http://localhost:8080/login', loginData, {
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(loginData)
+      }
     })
-      .then(response => response.json())
-      .then(data => {
+      .then(response => {
+        const data = response.data;
         console.log('Login successful:', data);
-        if (data.user) {
+        if (data.user && data.token) {
           setUser(data.user);
+          localStorage.setItem('token', data.token);
           setLoginData({ username: '', password: '' });
           console.log('Form fields reset');
-          navigate('/');
+          navigate('/dashboard');
         } else {
           console.error('No user data in response');
         }
