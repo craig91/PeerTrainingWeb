@@ -26,7 +26,7 @@ function Login({ setUser }) {
       },
       body: JSON.stringify(loginData)
     })
-      .then(response => response.text())
+      .then(response => response.json())
       .then(text => {
         console.log('Raw response:', text);
         const data = JSON.parse(text);
@@ -35,7 +35,7 @@ function Login({ setUser }) {
           setUser(data.user);
           setLoginData({ username: '', password: '' });
           console.log('Form fields reset');
-          navigate('/');
+          navigate('/Dashboard');
         } else {
           console.error('No user data in response');
         }
