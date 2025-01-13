@@ -38,12 +38,12 @@ function Signup() {
 
 
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-          <h2 className="text-2xl font-bold mb-6 text-center">Signup</h2>
+      <div className="flex items-center justify-center min-h-screen bg-[#272838]">
+        <div className="bg-[#F9F8F8] p-8 rounded-lg shadow-md w-full max-w-md">
+          <h2 className="text-2xl font-bold mb-6 text-center text-[#272838]">Signup</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="first_name" className="block text-sm font-medium text-gray-700">First Name</label>
+              <label htmlFor="first_name" className="block text-sm font-medium text-[#272838]">First Name</label>
               <input
                 type="text"
                 name="first_name"
@@ -52,11 +52,11 @@ function Signup() {
                 value={formData.first_name}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-[#7E7F9A] rounded-md shadow-sm focus:outline-none focus:ring-[#F3DE8A] focus:border-[#F3DE8A] sm:text-sm"
               />
             </div>
             <div>
-              <label htmlFor="last_name" className="block text-sm font-medium text-gray-700">Last Name</label>
+              <label htmlFor="last_name" className="block text-sm font-medium text-[#272838]">Last Name</label>
               <input
                 type="text"
                 name="last_name"
@@ -65,11 +65,11 @@ function Signup() {
                 value={formData.last_name}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-[#7E7F9A] rounded-md shadow-sm focus:outline-none focus:ring-[#F3DE8A] focus:border-[#F3DE8A] sm:text-sm"
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+              <label htmlFor="email" className="block text-sm font-medium text-[#272838]">Email</label>
               <input
                 type="email"
                 name="email"
@@ -78,11 +78,11 @@ function Signup() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-[#7E7F9A] rounded-md shadow-sm focus:outline-none focus:ring-[#F3DE8A] focus:border-[#F3DE8A] sm:text-sm"
               />
             </div>
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+              <label htmlFor="username" className="block text-sm font-medium text-[#272838]">Username</label>
               <input
                 type="text"
                 name="username"
@@ -91,11 +91,11 @@ function Signup() {
                 value={formData.username}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-[#7E7F9A] rounded-md shadow-sm focus:outline-none focus:ring-[#F3DE8A] focus:border-[#F3DE8A] sm:text-sm"
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+              <label htmlFor="password" className="block text-sm font-medium text-[#272838]">Password</label>
               <input
                 type="password"
                 name="password"
@@ -104,13 +104,13 @@ function Signup() {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-[#7E7F9A] rounded-md shadow-sm focus:outline-none focus:ring-[#F3DE8A] focus:border-[#F3DE8A] sm:text-sm"
               />
             </div>
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[#272838] bg-[#EB9486] hover:bg-[#F3DE8A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F3DE8A]"
               >
                 Signup
               </button>
