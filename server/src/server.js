@@ -1,5 +1,11 @@
 const express = require('express');
 require('dotenv').config();
+
+
+// const multer = require('multer');
+// const path = require('path');
+
+
 const pool = require('./config/db');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
@@ -10,6 +16,24 @@ const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(cors());
+
+
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads/');
+//     },
+//     filename: (req, file, cb)=> {
+//         cb(null, `${Date.now()}-${file.originalname}`);
+//     }
+// });
+
+// const upload = multer({ storage });
+
+
+// app.post()
+
+
+
 
 app.get('/users', async (req, res) => {
     try {
