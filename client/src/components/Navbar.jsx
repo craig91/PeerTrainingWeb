@@ -7,6 +7,7 @@ function Navbar({ user, setUser }) {
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/login');
   };
 
@@ -20,6 +21,7 @@ function Navbar({ user, setUser }) {
           <div className="flex items-center space-x-4">
             {user ? (
               <>
+                <Link to="/upload" className="text-[#F9F8F8] px-3 py-2 rounded-md text-sm font-medium hover:bg-[#7E7F9A]">Upload</Link>
                 <span className="text-[#F9F8F8]">Welcome, {user.username}</span>
                 <button
                   onClick={handleLogout}

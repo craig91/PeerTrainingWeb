@@ -1,40 +1,71 @@
 const express = require('express');
 require('dotenv').config();
-
-
-// const multer = require('multer');
-// const path = require('path');
-
-
-const pool = require('./config/db');
 const cors = require('cors');
+
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const { pool, filePool } = require('./config/db');
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const app = express();
 const port = process.env.PORT || 8080;
 
+
 app.use(express.json());
 app.use(cors());
 
 
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads/');
-//     },
-//     filename: (req, file, cb)=> {
-//         cb(null, `${Date.now()}-${file.originalname}`);
-//     }
-// });
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir);
+}
 
-// const upload = multer({ storage });
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, uploadsDir);
+    },
+    filename: (req, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`);
+    }
+  });
+  
+  const upload = multer({ storage });
+  
+
+  app.post('/upload', upload.single('file'), async (req, res) => {
+    if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+    }
+  
+    const userId = req.body.userId; 
+    const filePath = req.file.path;
+    const fileName = req.file.originalname;
+  
+    try {
+      const connection = await filePool.getConnection();
+      try {
+        const query = 'INSERT INTO user_files (user_id, file_path, file_name) VALUES (?, ?, ?)';
+        const [result] = await connection.query(query, [userId, filePath, fileName]);
+        res.send({ id: result.insertId, userId, filePath, fileName });
+      } catch (queryError) {
+        console.error('Query Error:', queryError);
+        res.status(500).send('Internal Server Error');
+      } finally {
+        connection.release();
+      }
+    } catch (connectionError) {
+      console.error('Connection Error:', connectionError);
+      res.status(500).send('Internal Server Error');
+    }
+  });
 
 
-// app.post()
 
-
-
-
+  
 app.get('/users', async (req, res) => {
     try {
         const connection = await pool.getConnection();
